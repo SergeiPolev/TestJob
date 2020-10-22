@@ -8,6 +8,8 @@ TagManager:
   - Right
   - Speed Up
   - Diamond
+  - Thorn
+  - Jump Pad
   layers:
   - Default
   - TransparentFX
