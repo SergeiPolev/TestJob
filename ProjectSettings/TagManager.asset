@@ -10,6 +10,8 @@ TagManager:
   - Diamond
   - Thorn
   - Jump Pad
+  - Multiplier
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

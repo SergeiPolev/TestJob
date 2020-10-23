@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class MotorScript : MonoBehaviour
 {
-    public float rotationSpeed = 10f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float rotationSpeedX = 0f;
+    public float rotationSpeedY = 0f;
+    public float rotationSpeedZ = 0f;
 
     private void FixedUpdate()
     {
-        transform.Rotate(0, rotationSpeed, 0, Space.World);
+        transform.Rotate(rotationSpeedX, rotationSpeedY, rotationSpeedZ, Space.World);
     }
 }

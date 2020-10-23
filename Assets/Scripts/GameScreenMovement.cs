@@ -8,15 +8,17 @@ public class GameScreenMovement : MonoBehaviour
     public float playerSpeed = 1f;
     public float timeToRotate = 1f;
     public float speedMutiplier = 1f;
+    public float finishSpeedMultiplier = 1f;
+    public Button buttonFinish;
+    public Slider sliderFinish;
 
-    public Text diamondsCounterText;
+    bool finishing = false;
+
+    public PlayerMovement playerMovement;
     
-    [SerializeField] private int diamonds = 0;
-
-
     void Start()
     {
-        diamondsCounterText.text = diamonds.ToString();
+        buttonFinish.onClick.AddListener(IncreaseFinishMultiplier);
     }
 
     // Update is called once per frame
@@ -32,6 +34,8 @@ public class GameScreenMovement : MonoBehaviour
         {
             transform.Rotate(0, 90f, 0, Space.World);
         }
+
+        sliderFinish.value = finishSpeedMultiplier;
     }
 
     IEnumerator Rotate(Vector3 axis, float angle, float duration = 1.0f)
@@ -62,9 +66,20 @@ public class GameScreenMovement : MonoBehaviour
             case "Right":
                 StartCoroutine(Rotate(Vector3.up, 90f, timeToRotate / speedMutiplier));
                 break;
+            case "Finish":
+                if (!finishing)
+                {
+                    finishing = true;
+                    sliderFinish.gameObject.SetActive(true);
+                    buttonFinish.gameObject.SetActive(true);
+                }
+                else
+                {
+                    playerMovement.AddForce(65f);
+                }
+                break;
         }
-    }    
-
+    }
     public void IncreaseMultiplier()
     {
         speedMutiplier += 1f;
@@ -73,14 +88,18 @@ public class GameScreenMovement : MonoBehaviour
     {
         speedMutiplier -= 1f;
     }
-    public void IncreaseDiamonds(int count) 
+    
+    public void IncreaseFinishMultiplier()
     {
-        diamonds += count;
-        diamondsCounterText.text = diamonds.ToString();
+        finishSpeedMultiplier += 0.2f;
     }
-
     private void FixedUpdate()
     {
-        transform.position += playerSpeed * speedMutiplier * transform.forward;
+        transform.position += playerSpeed * speedMutiplier * transform.forward * finishSpeedMultiplier;
+
+        if (finishing && finishSpeedMultiplier > 1f)
+        {
+            finishSpeedMultiplier -= 0.01f;
+        }
     }
 }
