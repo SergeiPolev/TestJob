@@ -39,6 +39,30 @@ public class PlayerMovement : MonoBehaviour
         var rightCheckSphere = Physics.OverlapSphere(rightCheck.position, 0.2f, layerMaskGround);
         var groundCheckSphere = Physics.OverlapSphere(groundCheck.position, 0.2f, layerMaskGround);
 
+        if (Input.touchCount > 0)
+        {
+            Touch myTouch = Input.GetTouch(0);
+            if (myTouch.phase == TouchPhase.Moved)
+            {
+                if (myTouch.deltaPosition.x != 0 )
+                {
+                    Debug.Log(myTouch.deltaPosition.x);
+                    if (myTouch.deltaPosition.x > 0 && rightCheckSphere.Length == 0)
+                    {
+                        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+                    } else if (myTouch.deltaPosition.x < 0 && leftCheckSphere.Length == 0)
+                    {
+                        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+                    }
+                    else
+                    {
+                        transform.localPosition = new Vector3(transform.localPosition.x + myTouch.deltaPosition.x / 10 * playerSpeed * Time.deltaTime, transform.localPosition.y, transform.localPosition.z);
+                    }
+
+                }
+            }
+        }
+
         if (Input.GetKey(KeyCode.LeftArrow) && leftCheckSphere.Length > 0)
         {
             transform.localPosition = new Vector3(transform.localPosition.x - playerSpeed * Time.deltaTime, transform.localPosition.y, transform.localPosition.z);

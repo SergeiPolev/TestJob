@@ -35,6 +35,15 @@ public class GameScreenMovement : MonoBehaviour
             transform.Rotate(0, 90f, 0, Space.World);
         }
 
+        if (finishing && Input.touchCount > 0)
+        {
+            Touch myTouch = Input.GetTouch(0);
+            if (myTouch.phase == TouchPhase.Began)
+            {
+                IncreaseFinishMultiplier();
+            }
+        }
+
         sliderFinish.value = finishSpeedMultiplier;
     }
 
@@ -61,9 +70,11 @@ public class GameScreenMovement : MonoBehaviour
         switch (tag)
         {
             case "Left":
+                StopAllCoroutines();
                 StartCoroutine(Rotate(Vector3.up, -90f, timeToRotate / speedMutiplier));
                 break;
             case "Right":
+                StopAllCoroutines();
                 StartCoroutine(Rotate(Vector3.up, 90f, timeToRotate / speedMutiplier));
                 break;
             case "Finish":
